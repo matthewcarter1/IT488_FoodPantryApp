@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace WinFormsApp1
 {
@@ -15,7 +16,8 @@ namespace WinFormsApp1
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Set up the connection string using SQL Server
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-IU3R9KA\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
+            //optionsBuilder.UseSqlServer("Data Source=DESKTOP-IU3R9KA\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Data Source=LANDO\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
         }
 
         // DbSet properties that represent the tables in the database

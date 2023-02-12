@@ -43,6 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.comboBoxUnit = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -179,12 +180,23 @@
             this.comboBoxUnit.Size = new System.Drawing.Size(121, 23);
             this.comboBoxUnit.TabIndex = 14;
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(81, 416);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 15;
+            this.button4.Text = "Reset Data";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1054, 450);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.comboBoxUnit);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -213,7 +225,6 @@
         private RichTextBox richTextBox1;
         private TextBox textBox2;
         private TextBox textBox3;
-        private TextBox textBox4;
         private Button button1;
         private Label label1;
         private Label label2;
@@ -224,5 +235,6 @@
         private Button button2;
         private Button button3;
         private ComboBox comboBoxUnit;
+        private Button button4;
     }
 }

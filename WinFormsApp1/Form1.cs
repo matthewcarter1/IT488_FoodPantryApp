@@ -1,4 +1,8 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Windows.Forms;
+
 
 namespace WinFormsApp1
 {
@@ -14,6 +18,8 @@ namespace WinFormsApp1
             comboBoxUnit.Items.Add("kilograms");
             comboBoxUnit.Items.Add("pounds");
             comboBoxUnit.Items.Add("ounces");
+            comboBoxUnit.Items.Add("milliliters");
+            comboBoxUnit.Items.Add("liters");
             comboBoxUnit.SelectedIndex = 0; // set the default selected item
         }
 
@@ -21,9 +27,11 @@ namespace WinFormsApp1
         {
             var itemService = new ItemService(_dbContext);
             var items = itemService.GetItems();
-            dataGridView1.DataSource = items.Select(i => new { i.ItemID, i.ItemName, i.ItemDescription, Category = i.Category.CategoryName, i.Quantity, i.Unit }).ToList();
+            dataGridView1.DataSource = items.Select(i => new { i.ItemID, i.ItemName, i.ItemDescription, CategoryName = i.Category.CategoryName, CategoryID = i.Category.CategoryID, i.Quantity, i.Unit }).ToList();
             dataGridView1.Columns["ItemID"].Visible = false;
+            dataGridView1.Columns["CategoryID"].Visible = false;
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -67,7 +75,7 @@ namespace WinFormsApp1
                 DataGridViewRow selectedRow = dataGridView1.Rows[selectedRowIndex];
                 textBox1.Text = selectedRow.Cells["ItemName"].Value.ToString();
                 richTextBox1.Text = selectedRow.Cells["ItemDescription"].Value.ToString();
-                textBox2.Text = selectedRow.Cells["Category"].Value.ToString();
+                textBox2.Text = selectedRow.Cells["CategoryName"].Value.ToString();
                 textBox3.Text = selectedRow.Cells["Quantity"].Value.ToString();
                 comboBoxUnit.SelectedItem = selectedRow.Cells["Unit"].Value.ToString();
             }
@@ -114,6 +122,7 @@ namespace WinFormsApp1
         }
 
 
+
         private void button2_Click(object sender, EventArgs e)
         {
             using (var dbContext = new FoodPantryDbContext())
@@ -147,5 +156,23 @@ namespace WinFormsApp1
                 LoadItems();
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("You are about to delete all of the items and categories in the database. Are you sure you want to proceed?", "Confirm Delete", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                using (var ctx = new FoodPantryDbContext())
+                {
+                    ctx.Database.ExecuteSqlRaw("EXEC sp_resetPantryData");
+                    ctx.SaveChanges();
+                }
+                LoadItems();
+            }
+        }
+
+
+
     }
+
 }
