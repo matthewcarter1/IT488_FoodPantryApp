@@ -57,13 +57,17 @@ namespace WinFormsApp1
             }
             else
             {
-                // Add the new category to the database
                 var newCategory = new Category { CategoryName = categoryName };
+                MessageBox.Show(categoryName);
                 _dbContext.Categories.Add(newCategory);
+                MessageBox.Show(newCategory.CategoryName);
                 _dbContext.SaveChanges();
-                return newCategory.CategoryID;
+                category = _dbContext.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
+                category.CategoryID = category.CategoryID - 1;
+                return category.CategoryID;
             }
         }
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
