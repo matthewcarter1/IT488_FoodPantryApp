@@ -36,37 +36,41 @@ namespace WinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             var itemService = new ItemService(_dbContext);
+           
             var item = new Item
             {
                 ItemName = textBox1.Text,
                 ItemDescription = richTextBox1.Text,
-                CategoryID = GetCategoryId(textBox2.Text),
+                CategoryID = GetCategoryID(textBox2.Text),
+                Category = new Category { CategoryName = textBox2.Text },
                 Quantity = int.Parse(textBox3.Text),
                 Unit = comboBoxUnit.SelectedItem.ToString()
-            };
+        };
             itemService.AddItem(item);
             LoadItems();
+
         }
 
-        private int GetCategoryId(string categoryName)
+        public int GetCategoryID(string categoryName)
         {
+            // Get the category from the database
             var category = _dbContext.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
+
+            // If the category exists, return the ID
             if (category != null)
             {
                 return category.CategoryID;
             }
-            else
-            {
-                var newCategory = new Category { CategoryName = categoryName };
-                MessageBox.Show(categoryName);
-                _dbContext.Categories.Add(newCategory);
-                MessageBox.Show(newCategory.CategoryName);
-                _dbContext.SaveChanges();
-                category = _dbContext.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
-                category.CategoryID = category.CategoryID - 1;
-                return category.CategoryID;
-            }
+
+            // If the category does not exist, add it to the database and return the new ID
+            var newCategory = new Category { CategoryName = categoryName };
+            _dbContext.Categories.Add(newCategory);
+            _dbContext.SaveChanges();
+            return newCategory.CategoryID;
         }
+
+
+
 
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -138,7 +142,7 @@ namespace WinFormsApp1
                 var item = dbContext.Items.FirstOrDefault(i => i.ItemID == itemId);
                 item.ItemName = textBox1.Text;
                 item.ItemDescription = richTextBox1.Text;
-                item.CategoryID = GetCategoryId(textBox2.Text);
+                item.CategoryID = GetCategoryID(textBox2.Text);
                 item.Quantity = int.Parse(textBox3.Text);
                 item.Unit = comboBoxUnit.SelectedItem.ToString();
                 dbContext.SaveChanges();

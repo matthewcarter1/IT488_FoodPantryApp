@@ -21,8 +21,23 @@ namespace WinFormsApp1
         }
 
         // Method to add a new item to the database
+        // Method to add a new item to the database
         public void AddItem(Item item)
         {
+            // Check if the category already exists in the database
+            var existingCategory = _dbContext.Categories.FirstOrDefault(c => c.CategoryName == item.Category.CategoryName);
+
+            // If the category does not exist, add it to the database
+            if (existingCategory == null)
+            {
+                existingCategory = new Category { CategoryName = item.Category.CategoryName };
+                _dbContext.Categories.Add(existingCategory);
+                _dbContext.SaveChanges();
+            }
+
+            // Update the category property of the item to use the existing category ID
+            item.Category = existingCategory;
+
             // Check if the item already exists in the database
             var existingItem = _dbContext.Items.FirstOrDefault(i => i.ItemName == item.ItemName);
 
