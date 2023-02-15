@@ -30,11 +30,30 @@ namespace WinFormsApp1
     {
         // Properties of the Item class
         public int ItemID { get; set; }
-        public string ItemName { get; set; }
-        public string ItemDescription { get; set; }
+
+        private string _itemName;
+        public string ItemName
+        {
+            get => _itemName;
+            set => _itemName = value;
+        }
+
+        private string _itemDescription;
+        public string ItemDescription
+        {
+            get => _itemDescription;
+            set => _itemDescription = value;
+        }
+
         public int CategoryID { get; set; }
         public int Quantity { get; set; }
-        public string Unit { get; set; }
+
+        private string _unit;
+        public string Unit
+        {
+            get => _unit;
+            set => _unit = value;
+        }
 
         // Navigation property for the relationship with the Category table
         public Category Category { get; set; }
@@ -49,12 +68,19 @@ namespace WinFormsApp1
         }
     }
 
+
     // Class that represents the Category table in the database
     public class Category
     {
         // Properties of the Category class
         public int CategoryID { get; set; }
-        public string CategoryName { get; set; }
+
+        private string _categoryName;
+        public string CategoryName
+        {
+            get => _categoryName;
+            set => _categoryName = value;
+        }
 
         // Navigation property for the relationship with the Item table
         public ICollection<Item> Items { get; set; }

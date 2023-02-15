@@ -21,7 +21,6 @@ namespace WinFormsApp1
         }
 
         // Method to add a new item to the database
-        // Method to add a new item to the database
         public void AddItem(Item item)
         {
             // Check if the category already exists in the database
@@ -59,19 +58,28 @@ namespace WinFormsApp1
         // Method to retrieve all items from the database
         public IEnumerable<Item> GetItems()
         {
-            // Return a list of items including the category information
-            return _dbContext.Items
-                .Include(i => i.Category)
-                .Select(i => new Item
-                {
-                    ItemID = i.ItemID,
-                    ItemName = i.ItemName,
-                    ItemDescription = i.ItemDescription,
-                    CategoryID = i.CategoryID,
-                    Quantity = i.Quantity,
-                    Unit = i.Unit,
-                    Category = new Category { CategoryName = i.Category.CategoryName }
-                }).ToList();
+            try
+            {
+                // Return a list of items including the category information
+                return _dbContext.Items
+                    .Include(i => i.Category)
+                    .Select(i => new Item
+                    {
+                        ItemID = i.ItemID,
+                        ItemName = i.ItemName,
+                        ItemDescription = i.ItemDescription,
+                        CategoryID = i.CategoryID,
+                        Quantity = i.Quantity,
+                        Unit = i.Unit,
+                        Category = new Category { CategoryName = i.Category.CategoryName }
+                    }).ToList();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine("An error occurred while retrieving items from the database: " + ex.Message);
+                return null;
+            }
         }
     }
 }

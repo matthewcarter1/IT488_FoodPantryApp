@@ -36,13 +36,13 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(richTextBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text) || string.IsNullOrWhiteSpace(textBox3.Text))
+            if (string.IsNullOrWhiteSpace(itemNameTextBox.Text) || string.IsNullOrWhiteSpace(descriptionRichTextBox.Text) || string.IsNullOrWhiteSpace(categoryTextBox.Text) || string.IsNullOrWhiteSpace(quantityTextBox.Text))
             {
                 MessageBox.Show("All fields are required.");
                 return;
             }
             int quantity;
-            if (!int.TryParse(textBox3.Text, out quantity))
+            if (!int.TryParse(quantityTextBox.Text, out quantity))
             {
                 MessageBox.Show("Quantity must be a valid integer.");
                 return;
@@ -52,10 +52,10 @@ namespace WinFormsApp1
 
             var item = new Item
             {
-                ItemName = textBox1.Text,
-                ItemDescription = richTextBox1.Text,
-                CategoryID = GetCategoryID(textBox2.Text),
-                Category = new Category { CategoryName = textBox2.Text },
+                ItemName = itemNameTextBox.Text,
+                ItemDescription = descriptionRichTextBox.Text,
+                CategoryID = GetCategoryID(categoryTextBox.Text),
+                Category = new Category { CategoryName = categoryTextBox.Text },
                 Quantity = quantity,
                 Unit = comboBoxUnit.SelectedItem.ToString()
             };
@@ -80,13 +80,13 @@ namespace WinFormsApp1
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                if (string.IsNullOrWhiteSpace(itemNameTextBox.Text))
                 {
                     MessageBox.Show("Item name is required.");
                     return;
                 }
 
-                if (!int.TryParse(textBox3.Text, out int quantity))
+                if (!int.TryParse(quantityTextBox.Text, out int quantity))
                 {
                     MessageBox.Show("Invalid quantity. Please enter a valid number.");
                     return;
@@ -99,9 +99,9 @@ namespace WinFormsApp1
                     DataGridViewRow selectedRow = dataGridView1.Rows[selectedRowIndex];
                     int itemId = (int)selectedRow.Cells["ItemID"].Value;
                     var item = dbContext.Items.FirstOrDefault(i => i.ItemID == itemId);
-                    item.ItemName = textBox1.Text;
-                    item.ItemDescription = richTextBox1.Text;
-                    item.CategoryID = GetCategoryID(textBox2.Text);
+                    item.ItemName = itemNameTextBox.Text;
+                    item.ItemDescription = descriptionRichTextBox.Text;
+                    item.CategoryID = GetCategoryID(categoryTextBox.Text);
                     item.Quantity = quantity;
                     item.Unit = comboBoxUnit.SelectedItem.ToString();
                     dbContext.SaveChanges();
@@ -237,19 +237,19 @@ namespace WinFormsApp1
                 if (selectedRowIndex >= 0)
                 {
                     DataGridViewRow selectedRow = dataGridView1.Rows[selectedRowIndex];
-                    textBox1.Text = selectedRow.Cells["ItemName"].Value?.ToString() ?? string.Empty;
-                    richTextBox1.Text = selectedRow.Cells["ItemDescription"].Value?.ToString() ?? string.Empty;
-                    textBox2.Text = selectedRow.Cells["CategoryName"].Value?.ToString() ?? string.Empty;
+                    itemNameTextBox.Text = selectedRow.Cells["ItemName"].Value?.ToString() ?? string.Empty;
+                    descriptionRichTextBox.Text = selectedRow.Cells["ItemDescription"].Value?.ToString() ?? string.Empty;
+                    categoryTextBox.Text = selectedRow.Cells["CategoryName"].Value?.ToString() ?? string.Empty;
 
                     // validate the value in Quantity column before parsing it to integer
                     if (int.TryParse(selectedRow.Cells["Quantity"].Value?.ToString(), out int quantity))
                     {
-                        textBox3.Text = quantity.ToString();
+                        quantityTextBox.Text = quantity.ToString();
                     }
                     else
                     {
                         MessageBox.Show("Invalid value for Quantity", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        textBox3.Text = string.Empty;
+                        quantityTextBox.Text = string.Empty;
                     }
 
                     comboBoxUnit.SelectedItem = selectedRow.Cells["Unit"].Value?.ToString() ?? string.Empty;
@@ -269,15 +269,15 @@ namespace WinFormsApp1
                 if (selectedRowIndex >= 0)
                 {
                     DataGridViewRow selectedRow = dataGridView1.Rows[selectedRowIndex];
-                    textBox1.Text = selectedRow.Cells["ItemName"].Value.ToString();
-                    richTextBox1.Text = selectedRow.Cells["ItemDescription"].Value.ToString();
-                    textBox2.Text = selectedRow.Cells["CategoryName"].Value.ToString();
+                    itemNameTextBox.Text = selectedRow.Cells["ItemName"].Value.ToString();
+                    descriptionRichTextBox.Text = selectedRow.Cells["ItemDescription"].Value.ToString();
+                    categoryTextBox.Text = selectedRow.Cells["CategoryName"].Value.ToString();
 
                     if (!int.TryParse(selectedRow.Cells["Quantity"].Value.ToString(), out int quantity))
                     {
                         throw new Exception("Invalid quantity value");
                     }
-                    textBox3.Text = quantity.ToString();
+                    quantityTextBox.Text = quantity.ToString();
 
                     var unit = selectedRow.Cells["Unit"].Value.ToString();
                     if (!comboBoxUnit.Items.Contains(unit))
