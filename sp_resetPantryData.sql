@@ -1,34 +1,36 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-CREATE PROCEDURE <Procedure_Name, sysname, ProcedureName> 
-	-- Add the parameters for the stored procedure here
-	<@Param1, sysname, @p1> <Datatype_For_Param1, , int> = <Default_Value_For_Param1, , 0>, 
-	<@Param2, sysname, @p2> <Datatype_For_Param2, , int> = <Default_Value_For_Param2, , 0>
+CREATE PROCEDURE [dbo].[sp_resetPantryData]
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    DELETE FROM Items;
+    DELETE FROM Categories;
 
-    -- Insert statements for procedure here
-	SELECT <@Param1, sysname, @p1>, <@Param2, sysname, @p2>
+    DBCC CHECKIDENT ('Items', RESEED, 0);
+    DBCC CHECKIDENT ('Categories', RESEED, 0);
+
+    INSERT INTO Categories (CategoryName)
+    VALUES ('Canned Foods'), ('Bakery'), ('Dry Goods'), ('Beverages');
+
+    INSERT INTO Items(ItemName, ItemDescription, CategoryID, Quantity, Unit)
+    VALUES 
+    ('Canned Tomatoes', 'Whole peeled tomatoes', 1, 400, 'grams'),
+    ('Bread', 'Whole wheat bread', 2, 500, 'grams'),
+    ('Pasta', 'Spaghetti noodles', 3, 1000, 'grams'),
+    ('Soda', 'Cola', 4, 355, 'milliliters'),
+    ('Canned Peaches', 'Peaches in syrup', 1, 720, 'grams'),
+    ('Bagels', 'Plain bagels', 2, 140, 'grams'),
+    ('Rice', 'White rice', 3, 1000, 'grams'),
+    ('Juice', 'Orange juice', 4, 1000, 'milliliters'),
+    ('Canned Beans', 'Kidney beans', 1, 400, 'grams'),
+    ('Muffins', 'Blueberry muffins', 2, 125, 'grams'),
+    ('Cereal', 'Cornflakes', 3, 500, 'grams'),
+    ('Milk', 'Whole milk', 4, 1000, 'milliliters'),
+    ('Canned Corn', 'Sweet corn', 1, 340, 'grams'),
+    ('Cakes', 'Chocolate cakes', 2, 500, 'grams'),
+    ('Noodles', 'Ramen noodles', 3, 500, 'grams'),
+    ('Water', 'Mineral water', 4, 500, 'milliliters'),
+    ('Peanut Butter', 'Smooth peanut butter', 3, 340, 'grams'),
+    ('Crackers', 'Saltine crackers', 3, 250, 'grams'),
+    ('Sugar', 'White granulated sugar', 3, 500, 'grams'),
+    ('Honey', 'Wildflower honey', 3, 340, 'grams'),
+    ('Tea', 'Black tea bags', 4, 100, 'grams');
 END
-GO
