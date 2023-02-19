@@ -74,3 +74,10 @@ CREATE TABLE User_Items (
     CONSTRAINT FK_User_Items_Users FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT FK_User_Items_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
+-- Create ExpirationDates table
+CREATE TABLE ExpirationDates (
+    ExpirationID INT PRIMARY KEY IDENTITY(1,1),
+    ExpirationDate DATE NOT NULL,
+    ItemID INT NOT NULL,
+    CONSTRAINT FK_ExpirationDates_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
+);
