@@ -36,6 +36,7 @@ CREATE TABLE Items (
     CategoryID INT NOT NULL,
     Quantity INT NOT NULL,
     Unit VARCHAR(255) NOT NULL,
+    Expiration DATE NOT NULL,
     CONSTRAINT FK_Items_Categories FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
 
@@ -73,11 +74,4 @@ CREATE TABLE User_Items (
     PRIMARY KEY (UserID, ItemID),
     CONSTRAINT FK_User_Items_Users FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT FK_User_Items_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
-);
--- Create ExpirationDates table
-CREATE TABLE ExpirationDates (
-    ExpirationID INT PRIMARY KEY IDENTITY(1,1),
-    ExpirationDate DATE NOT NULL,
-    ItemID INT NOT NULL,
-    CONSTRAINT FK_ExpirationDates_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
