@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.itemNameTextBox = new System.Windows.Forms.TextBox();
             this.descriptionRichTextBox = new System.Windows.Forms.RichTextBox();
             this.categoryTextBox = new System.Windows.Forms.TextBox();
@@ -64,21 +64,21 @@
             // 
             // categoryTextBox
             // 
-            this.categoryTextBox.Location = new System.Drawing.Point(79, 148);
+            this.categoryTextBox.Location = new System.Drawing.Point(76, 197);
             this.categoryTextBox.Name = "categoryTextBox";
             this.categoryTextBox.Size = new System.Drawing.Size(279, 23);
             this.categoryTextBox.TabIndex = 2;
             // 
             // quantityTextBox
             // 
-            this.quantityTextBox.Location = new System.Drawing.Point(79, 182);
+            this.quantityTextBox.Location = new System.Drawing.Point(76, 231);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(100, 23);
             this.quantityTextBox.TabIndex = 3;
             // 
             // addNewButton
             // 
-            this.addNewButton.Location = new System.Drawing.Point(79, 217);
+            this.addNewButton.Location = new System.Drawing.Point(76, 266);
             this.addNewButton.Name = "addNewButton";
             this.addNewButton.Size = new System.Drawing.Size(100, 23);
             this.addNewButton.TabIndex = 5;
@@ -107,7 +107,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 156);
+            this.label3.Location = new System.Drawing.Point(4, 205);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 15);
             this.label3.TabIndex = 8;
@@ -116,7 +116,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 190);
+            this.label4.Location = new System.Drawing.Point(4, 239);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 15);
             this.label4.TabIndex = 9;
@@ -125,7 +125,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(202, 190);
+            this.label5.Location = new System.Drawing.Point(199, 239);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 15);
             this.label5.TabIndex = 10;
@@ -135,9 +135,9 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Red;
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Red;
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -153,7 +153,7 @@
             // 
             // modifyItemButton
             // 
-            this.modifyItemButton.Location = new System.Drawing.Point(238, 217);
+            this.modifyItemButton.Location = new System.Drawing.Point(235, 266);
             this.modifyItemButton.Name = "modifyItemButton";
             this.modifyItemButton.Size = new System.Drawing.Size(99, 23);
             this.modifyItemButton.TabIndex = 12;
@@ -163,7 +163,7 @@
             // 
             // removeItemButton
             // 
-            this.removeItemButton.Location = new System.Drawing.Point(79, 261);
+            this.removeItemButton.Location = new System.Drawing.Point(76, 310);
             this.removeItemButton.Name = "removeItemButton";
             this.removeItemButton.Size = new System.Drawing.Size(100, 23);
             this.removeItemButton.TabIndex = 13;
@@ -175,7 +175,7 @@
             // 
             this.comboBoxUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxUnit.FormattingEnabled = true;
-            this.comboBoxUnit.Location = new System.Drawing.Point(237, 182);
+            this.comboBoxUnit.Location = new System.Drawing.Point(234, 231);
             this.comboBoxUnit.Name = "comboBoxUnit";
             this.comboBoxUnit.Size = new System.Drawing.Size(121, 23);
             this.comboBoxUnit.TabIndex = 14;
