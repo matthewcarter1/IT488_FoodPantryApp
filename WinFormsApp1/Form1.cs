@@ -24,6 +24,7 @@ namespace WinFormsApp1
             comboBoxUnit.Items.Add("milliliters");
             comboBoxUnit.Items.Add("liters");
             comboBoxUnit.SelectedIndex = 0; // set the default selected item
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
         private void LoadItems()
@@ -38,14 +39,54 @@ namespace WinFormsApp1
                 CategoryID = i.Category.CategoryID,
                 i.Quantity,
                 i.Unit,
-                i.Expiration
+                Expiration = i.Expiration,
+                ExpiredStatus = (i.Expiration < DateTime.Today) ? "Expired" : ((i.Expiration - DateTime.Today).Days + " days")
             }).ToList();
             dataGridView1.Columns["ItemID"].Visible = false;
             dataGridView1.Columns["CategoryID"].Visible = false;
+            dataGridView1.Columns["ExpiredStatus"].HeaderText = "Status";
+            dataGridView1.Columns["ExpiredStatus"].ReadOnly = true;
+            dataGridView1.Columns["ItemID"].Visible = false;
+            dataGridView1.Columns["CategoryID"].Visible = false;
+        }
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "ExpiredStatus")
+            {
+                e.CellStyle.ForeColor = Color.White;
+                string status = e.Value.ToString();
+                if (status == "Expired")
+                {
+                    e.CellStyle.BackColor = Color.Red; // set background color to red for expired items
+                }
+                else if (status.EndsWith("days")) // check if status contains number of days until expiration
+                {
+                    int days = int.Parse(status.Split()[0]);
+                    if (days <= 14) // set background color to orange for items expiring within 14 days
+                    {
+                        e.CellStyle.BackColor = Color.Orange;
+                        e.CellStyle.ForeColor = Color.Black;
+                    }
+                    else if (days <= 30 && days > 14) // set background color to orange for items expiring within 14 days
+                    {
+                        e.CellStyle.BackColor = Color.Yellow;
+                        e.CellStyle.ForeColor = Color.Black;
+                    }
+                    else
+                    {
+                        e.CellStyle.BackColor = Color.Green;
+                        e.CellStyle.ForeColor = Color.White;
+                    }
+
+                    // Set the background color of the whole row
+
+                }
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = e.CellStyle.BackColor;
+                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = e.CellStyle.ForeColor;
+            }
         }
 
-
-        private void button1_Click(object sender, EventArgs e)
+    private void button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(itemNameTextBox.Text) || string.IsNullOrWhiteSpace(descriptionRichTextBox.Text) || string.IsNullOrWhiteSpace(categoryTextBox.Text) || string.IsNullOrWhiteSpace(quantityTextBox.Text))
             {
@@ -116,6 +157,7 @@ namespace WinFormsApp1
                     item.CategoryID = GetCategoryID(categoryTextBox.Text);
                     item.Quantity = quantity;
                     item.Unit = comboBoxUnit.SelectedItem.ToString();
+                    item.Expiration = dateTimePicker1.Value;
                     dbContext.SaveChanges();
                     LoadItems();
                 }
