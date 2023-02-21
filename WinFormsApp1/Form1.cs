@@ -1,5 +1,6 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Data;
 using System.Globalization;
@@ -37,7 +38,6 @@ namespace WinFormsApp1
                 CategoryID = i.Category.CategoryID,
                 i.Quantity,
                 i.Unit,
-                //Expiration = DateTime.ParseExact(i.Expiration, "yyyy-MM-dd", CultureInfo.InvariantCulture)
                 i.Expiration
             }).ToList();
             dataGridView1.Columns["ItemID"].Visible = false;
@@ -253,6 +253,7 @@ namespace WinFormsApp1
                     descriptionRichTextBox.Text = selectedRow.Cells["ItemDescription"].Value?.ToString() ?? string.Empty;
                     categoryTextBox.Text = selectedRow.Cells["CategoryName"].Value?.ToString() ?? string.Empty;
 
+
                     // validate the value in Quantity column before parsing it to integer
                     if (int.TryParse(selectedRow.Cells["Quantity"].Value?.ToString(), out int quantity))
                     {
@@ -265,6 +266,8 @@ namespace WinFormsApp1
                     }
 
                     comboBoxUnit.SelectedItem = selectedRow.Cells["Unit"].Value?.ToString() ?? string.Empty;
+                    DateTime.TryParse(selectedRow.Cells["Expiration"].Value.ToString(), out DateTime expiration);
+                    dateTimePicker1.Value = expiration;
                 }
             }
             catch (Exception ex)
@@ -297,6 +300,9 @@ namespace WinFormsApp1
                         throw new Exception("Invalid unit value");
                     }
                     comboBoxUnit.SelectedItem = unit;
+                    DateTime.TryParse(selectedRow.Cells["Expiration"].Value.ToString(), out DateTime expiration);
+                    dateTimePicker1.Value = expiration;
+
                 }
             }
             catch (Exception ex)
