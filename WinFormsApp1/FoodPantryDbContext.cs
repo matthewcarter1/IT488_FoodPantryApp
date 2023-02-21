@@ -55,7 +55,7 @@ namespace WinFormsApp1
             set => _unit = value;
         }
         // new property for expiration date
-        public string Expiration { get; set; }
+        public DateTime Expiration { get; set; }
 
         // Navigation property for the relationship with the Category table
         public Category Category { get; set; }
@@ -67,6 +67,7 @@ namespace WinFormsApp1
             ItemDescription = "";
             Unit = "";
             Category = new Category();
+            Expiration = DateTime.MinValue;
         }
     }
 

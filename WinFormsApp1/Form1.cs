@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -28,7 +29,17 @@ namespace WinFormsApp1
         {
             var itemService = new ItemService(_dbContext);
             var items = itemService.GetItems();
-            dataGridView1.DataSource = items.Select(i => new { i.ItemID, i.ItemName, i.ItemDescription, CategoryName = i.Category.CategoryName, CategoryID = i.Category.CategoryID, i.Quantity, i.Unit, i.Expiration }).ToList();
+            dataGridView1.DataSource = items.Select(i => new {
+                i.ItemID,
+                i.ItemName,
+                i.ItemDescription,
+                CategoryName = i.Category.CategoryName,
+                CategoryID = i.Category.CategoryID,
+                i.Quantity,
+                i.Unit,
+                //Expiration = DateTime.ParseExact(i.Expiration, "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                i.Expiration
+            }).ToList();
             dataGridView1.Columns["ItemID"].Visible = false;
             dataGridView1.Columns["CategoryID"].Visible = false;
         }
@@ -58,7 +69,7 @@ namespace WinFormsApp1
                 Category = new Category { CategoryName = categoryTextBox.Text },
                 Quantity = quantity,
                 Unit = comboBoxUnit.SelectedItem.ToString(),
-                Expiration = dateTimePicker1.Value.ToString("yyyy-MM-dd")
+                Expiration = dateTimePicker1.Value
             };
             try
             {

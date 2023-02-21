@@ -71,7 +71,8 @@ namespace WinFormsApp1
                         CategoryID = i.CategoryID,
                         Quantity = i.Quantity,
                         Unit = i.Unit,
-                        Category = new Category { CategoryName = i.Category.CategoryName }
+                        Expiration = i.Expiration,
+                        Category = new Category { CategoryName = i.Category.CategoryName }, 
                     }).ToList();
             }
             catch (Exception ex)
