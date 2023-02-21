@@ -28,7 +28,7 @@ namespace WinFormsApp1
         {
             var itemService = new ItemService(_dbContext);
             var items = itemService.GetItems();
-            dataGridView1.DataSource = items.Select(i => new { i.ItemID, i.ItemName, i.ItemDescription, CategoryName = i.Category.CategoryName, CategoryID = i.Category.CategoryID, i.Quantity, i.Unit }).ToList();
+            dataGridView1.DataSource = items.Select(i => new { i.ItemID, i.ItemName, i.ItemDescription, CategoryName = i.Category.CategoryName, CategoryID = i.Category.CategoryID, i.Quantity, i.Unit, i.Expiration }).ToList();
             dataGridView1.Columns["ItemID"].Visible = false;
             dataGridView1.Columns["CategoryID"].Visible = false;
         }
@@ -57,7 +57,8 @@ namespace WinFormsApp1
                 CategoryID = GetCategoryID(categoryTextBox.Text),
                 Category = new Category { CategoryName = categoryTextBox.Text },
                 Quantity = quantity,
-                Unit = comboBoxUnit.SelectedItem.ToString()
+                Unit = comboBoxUnit.SelectedItem.ToString(),
+                Expiration = dateTimePicker1.Value.ToString("yyyy-MM-dd")
             };
             try
             {

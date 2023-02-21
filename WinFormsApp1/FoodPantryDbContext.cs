@@ -54,6 +54,8 @@ namespace WinFormsApp1
             get => _unit;
             set => _unit = value;
         }
+        // new property for expiration date
+        public string Expiration { get; set; }
 
         // Navigation property for the relationship with the Category table
         public Category Category { get; set; }
