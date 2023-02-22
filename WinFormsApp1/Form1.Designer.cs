@@ -46,6 +46,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
+            this.recipeManager = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -209,12 +210,23 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "Expiration";
             // 
+            // recipeManager
+            // 
+            this.recipeManager.Location = new System.Drawing.Point(235, 415);
+            this.recipeManager.Name = "recipeManager";
+            this.recipeManager.Size = new System.Drawing.Size(120, 23);
+            this.recipeManager.TabIndex = 18;
+            this.recipeManager.Text = "Recipe Manager";
+            this.recipeManager.UseVisualStyleBackColor = true;
+            this.recipeManager.Click += new System.EventHandler(this.recipeManager_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1054, 450);
+            this.Controls.Add(this.recipeManager);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.button4);
@@ -259,5 +271,6 @@
         private Button button4;
         private DateTimePicker dateTimePicker1;
         private Label label6;
+        private Button recipeManager;
     }
 }

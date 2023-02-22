@@ -1,3 +1,4 @@
+using IT488_FoodPantryApp;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -27,7 +28,7 @@ namespace WinFormsApp1
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
-        private void LoadItems()
+        public void LoadItems()
         {
             var itemService = new ItemService(_dbContext);
             var items = itemService.GetItems();
@@ -351,6 +352,12 @@ namespace WinFormsApp1
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void recipeManager_Click(object sender, EventArgs e)
+        {
+            var form2 = new Form2();
+            form2.Show();
         }
     }
 }
