@@ -1,3 +1,5 @@
+
+USE FoodPantryDB;
 /* Items: This table stores information about each item in the pantry, including the item name, description, 
 category, quantity, and unit of measurement. The ItemID column is set as the primary key and is set to auto-increment. 
 There is also a foreign key constraint to link the items to their respective categories.
@@ -34,7 +36,7 @@ CREATE TABLE Items (
     ItemName VARCHAR(255) NOT NULL,
     ItemDescription VARCHAR(255) NOT NULL,
     CategoryID INT NOT NULL,
-    Quantity INT NOT NULL,
+    Quantity DECIMAL NOT NULL,
     Unit VARCHAR(255) NOT NULL,
     Expiration DATE NOT NULL,
     CONSTRAINT FK_Items_Categories FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
@@ -45,7 +47,7 @@ CREATE TABLE Purchases (
     PurchaseID INT PRIMARY KEY IDENTITY(1,1),
     PurchaseDate DATE NOT NULL,
     PurchaseLocation VARCHAR(255) NOT NULL,
-    Quantity INT NOT NULL,
+    Quantity DECIMAL NOT NULL,
     ItemID INT NOT NULL,
     CONSTRAINT FK_Purchases_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
@@ -54,7 +56,7 @@ CREATE TABLE Purchases (
 CREATE TABLE Consumptions (
     ConsumptionID INT PRIMARY KEY IDENTITY(1,1),
     ConsumptionDate DATE NOT NULL,
-    Quantity INT NOT NULL,
+    Quantity DECIMAL NOT NULL,
     ItemID INT NOT NULL,
     CONSTRAINT FK_Consumptions_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
