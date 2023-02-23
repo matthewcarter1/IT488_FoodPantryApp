@@ -32,7 +32,7 @@ namespace WinFormsApp1
         {
             var itemService = new ItemService(_dbContext);
             var items = itemService.GetItems();
-            dataGridView1.DataSource = items.Select(i => new {
+           dataGridView1.DataSource = items.Select(i => new {
                 i.ItemID,
                 i.ItemName,
                 i.ItemDescription,
@@ -48,7 +48,7 @@ namespace WinFormsApp1
             dataGridView1.Columns["ExpiredStatus"].HeaderText = "Status";
             dataGridView1.Columns["ExpiredStatus"].ReadOnly = true;
             dataGridView1.Columns["ItemID"].Visible = false;
-            dataGridView1.Columns["CategoryID"].Visible = false;
+            dataGridView1.Columns["CategoryID"].Visible = false; 
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
