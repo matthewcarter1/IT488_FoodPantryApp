@@ -46,7 +46,6 @@ CREATE TABLE Items (
 CREATE TABLE Purchases (
     PurchaseID INT PRIMARY KEY IDENTITY(1,1),
     PurchaseDate DATE NOT NULL,
-    PurchaseLocation VARCHAR(255) NOT NULL,
     Quantity DECIMAL NOT NULL,
     ItemID INT NOT NULL,
     CONSTRAINT FK_Purchases_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
