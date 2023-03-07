@@ -23,12 +23,6 @@ namespace WinFormsApp1
         // DbSet properties that represent the tables in the database
         public DbSet<Item> Items { get; set; }
         public DbSet<Category> Categories { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Item>()
-                .Property(i => i.Quantity)
-                .HasColumnType("decimal(18,2)");
-        }
     }
     
 
@@ -53,8 +47,7 @@ namespace WinFormsApp1
         }
 
         public int CategoryID { get; set; }
-        //public double Quantity { get; set; }
-        public double Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         private string _unit;
         public string Unit

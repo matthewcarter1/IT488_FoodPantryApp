@@ -51,7 +51,7 @@ namespace IT488_FoodPantryApp
         public class ShoppingListItem
         {
             public string Ingredient { get; set; }
-            public double Quantity { get; set; }
+            public decimal Quantity { get; set; }
             public string Unit { get; set; }
         }
 
@@ -62,7 +62,7 @@ namespace IT488_FoodPantryApp
             _dbContext = new FoodPantryDbContext();
             // Get the ingredient and quantity values from the text boxes
             string ingredient = ingredientTextBox.Text;
-            double quantity = Convert.ToDouble(qtyTextBox.Text);
+            decimal quantity = Convert.ToDecimal(qtyTextBox.Text);
             string requestedUnit = comboBox1.SelectedItem.ToString();
 
             // Check if the ingredient is already in the pantry
@@ -76,8 +76,8 @@ namespace IT488_FoodPantryApp
                 // Convert the requested quantity to the unit stored in the database, if necessary
                 if (requestedUnit.ToLower() != storedUnit)
                 {
-                    double conversionFactor = ConvertToUnit(1, requestedUnit, storedUnit);
-                    quantity *= conversionFactor;
+                    decimal conversionFactor = ConvertToUnit(1, requestedUnit, storedUnit);
+                    quantity = quantity * conversionFactor;
                 }
 
                 // Check if enough is available in the pantry
@@ -88,7 +88,7 @@ namespace IT488_FoodPantryApp
                     if (confirmResult == DialogResult.Yes)
                     {
                         // Subtract the ingredients from the pantry
-                        pantryItem.Quantity -= quantity;
+                        pantryItem.Quantity = pantryItem.Quantity - quantity;
                         _dbContext.SaveChanges();
 
                         // Refresh the dataGridView1 on Form1
@@ -103,7 +103,7 @@ namespace IT488_FoodPantryApp
                     if (confirmResult == DialogResult.Yes)
                     {
                         // Subtract the available ingredients from the requested quantity
-                        double remainingQuantity = quantity - pantryItem.Quantity;
+                        decimal remainingQuantity = quantity - pantryItem.Quantity;
 
                         // Remove the item from the pantry
                         _dbContext.Items.Remove(pantryItem);
@@ -121,14 +121,14 @@ namespace IT488_FoodPantryApp
                             if (existingItem.Unit.ToLower() == storedUnit)
                             {
                                 // Units match, update the quantity
-                                existingItem.Quantity += remainingQuantity;
+                                existingItem.Quantity = existingItem.Quantity + remainingQuantity;
                                 MessageBox.Show($"Added {remainingQuantity} {storedUnit} of {ingredient} to the shopping list.");
                             }
                             else
                             {
                                 // Units don't match, convert the quantity to the correct unit and update the quantity
-                                double convertedQuantity = ConvertToUnit(remainingQuantity, storedUnit, existingItem.Unit.ToLower());
-                                existingItem.Quantity += convertedQuantity;
+                                decimal convertedQuantity = ConvertToUnit(remainingQuantity, storedUnit, existingItem.Unit.ToLower());
+                                existingItem.Quantity = existingItem.Quantity + convertedQuantity;
                                 MessageBox.Show($"Added {convertedQuantity} {existingItem.Unit.ToLower()} of {ingredient} to the shopping list.");
                             }
                         }
@@ -163,14 +163,14 @@ namespace IT488_FoodPantryApp
                         if (shoppingListItem.Unit.ToLower() == requestedUnit.ToLower())
                         {
                             // Units match, update the quantity
-                            shoppingListItem.Quantity += quantity;
+                            shoppingListItem.Quantity = shoppingListItem.Quantity + quantity;
                             MessageBox.Show($"Added {quantity} {requestedUnit} of {ingredient} to the shopping list.");
                         }
                         else
                         {
                             // Units don't match, convert the quantity to the correct unit and update the quantity
-                            double convertedQuantity = ConvertToUnit(quantity, requestedUnit.ToLower(), shoppingListItem.Unit.ToLower());
-                            shoppingListItem.Quantity += convertedQuantity;
+                            decimal convertedQuantity = ConvertToUnit(quantity, requestedUnit.ToLower(), shoppingListItem.Unit.ToLower());
+                            shoppingListItem.Quantity = shoppingListItem.Quantity + convertedQuantity;
                             MessageBox.Show($"Added {convertedQuantity} {shoppingListItem.Unit.ToLower()} of {ingredient} to the shopping list.");
                         }
                     }
@@ -194,52 +194,52 @@ namespace IT488_FoodPantryApp
         }
 
         // Method to convert the quantity to milliliters
-        private double ConvertToMilliliters(double quantity, string unit)
+        private decimal ConvertToMilliliters(decimal quantity, string unit)
         {
             switch (unit.ToLower())
             {
                 case "grams":
-                    return quantity * 1.0;
+                    return quantity * 1.0m;
                 case "kilograms":
-                    return quantity * 1000.0;
+                    return quantity * 1000.0m;
                 case "pounds":
-                    return quantity * 453.592;
+                    return quantity * 453.592m;
                 case "ounces":
-                    return quantity * 28.3495;
+                    return quantity * 28.3495m;
                 case "liters":
-                    return quantity * 1000.0;
+                    return quantity * 1000.0m;
                 default:
                     return quantity;
             }
         }
 
         // Method to convert the quantity from milliliters to the given unit
-        private double ConvertFromMilliliters(double quantity, string unit)
+        private decimal ConvertFromMilliliters(decimal quantity, string unit)
         {
             switch (unit.ToLower())
             {
                 case "grams":
-                    return quantity / 1.0;
+                    return quantity / 1.0m;
                 case "kilograms":
-                    return quantity / 1000.0;
+                    return quantity / 1000.0m;
                 case "pounds":
-                    return quantity / 453.592;
+                    return quantity / 453.592m;
                 case "ounces":
-                    return quantity / 28.3495;
+                    return quantity / 28.3495m;
                 case "liters":
-                    return quantity / 1000.0;
+                    return quantity / 1000.0m;
                 default:
                     return quantity;
             }
         }
 
         // Method to convert the quantity to the given unit
-        private double ConvertToUnit(double quantity, string fromUnit, string toUnit)
+        private decimal ConvertToUnit(decimal quantity, string fromUnit, string toUnit)
         {
             // Convert the quantity to milliliters
-            double quantityInMilliliters = ConvertToMilliliters(quantity, fromUnit);
+            decimal quantityInMilliliters = ConvertToMilliliters(quantity, fromUnit);
             // Convert the quantity from milliliters to the given unit
-            double convertedQuantity = ConvertFromMilliliters(quantityInMilliliters, toUnit);
+            decimal convertedQuantity = ConvertFromMilliliters(quantityInMilliliters, toUnit);
 
             return convertedQuantity;
 

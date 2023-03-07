@@ -68,7 +68,7 @@ namespace WinFormsApp1
                         e.CellStyle.BackColor = Color.Orange;
                         e.CellStyle.ForeColor = Color.Black;
                     }
-                    else if (days <= 30 && days > 14) // set background color to orange for items expiring within 14 days
+                    else if (days <= 30 && days > 14) // set background color to orange for items expiring between 14 and 30 days
                     {
                         e.CellStyle.BackColor = Color.Yellow;
                         e.CellStyle.ForeColor = Color.Black;
