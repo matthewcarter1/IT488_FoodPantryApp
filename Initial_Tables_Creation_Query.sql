@@ -1,4 +1,3 @@
-
 -- Create the database
 CREATE DATABASE FoodPantryDB;
 GO
@@ -23,24 +22,6 @@ CREATE TABLE Items (
     CONSTRAINT FK_Items_Categories FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
 
--- Create the Purchases table
-CREATE TABLE Purchases (
-    PurchaseID INT PRIMARY KEY IDENTITY(1,1),
-    PurchaseDate DATE NOT NULL,
-    Quantity DECIMAL NOT NULL,
-    ItemID INT NOT NULL,
-    CONSTRAINT FK_Purchases_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
-);
-
--- Create the Consumptions table
-CREATE TABLE Consumptions (
-    ConsumptionID INT PRIMARY KEY IDENTITY(1,1),
-    ConsumptionDate DATE NOT NULL,
-    Quantity DECIMAL NOT NULL,
-    ItemID INT NOT NULL,
-    CONSTRAINT FK_Consumptions_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
-);
-
 -- Create the Users table
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
@@ -57,17 +38,28 @@ CREATE TABLE User_Items (
     CONSTRAINT FK_User_Items_Users FOREIGN KEY (UserID) REFERENCES Users(UserID),
     CONSTRAINT FK_User_Items_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
+-- Create the Tracking table
+CREATE TABLE Tracking (
+    TrackingID INT PRIMARY KEY IDENTITY(1,1),
+    TrackingDate DATE NOT NULL,
+    Quantity DECIMAL NOT NULL,
+    ItemID INT NOT NULL,
+    CONSTRAINT FK_Tracking_Items FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
+);
 GO
 USE FoodPantryDB;
 GO
-CREATE USER FoodPantry FOR LOGIN FoodPantry WITH PASSWORD=N'PantryFood', DEFAULT_DATABASE=[FoodPantryDB], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;
+CREATE LOGIN FoodPantry WITH PASSWORD=N'PantryFood', CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF;
+GO
+USE FoodPantryDB;
+GO
+CREATE USER FoodPantry FOR LOGIN FoodPantry;
 GO
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Categories TO FoodPantry;
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Items TO FoodPantry;
-GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Purchases TO FoodPantry;
-GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Consumptions TO FoodPantry;
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Users TO FoodPantry;
 GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.User_Items TO FoodPantry;
+GRANT SELECT, INSERT, UPDATE, DELETE ON dbo.Tracking TO FoodPantry;
 GO
 USE FoodPantryDB;
 GO
@@ -88,10 +80,13 @@ BEGIN
     -- Delete all data from Items and Categories tables
     DELETE FROM Items;
     DELETE FROM Categories;
+    DELETE FROM Tracking;
 
     -- Reset identity columns for Items and Categories tables
     DBCC CHECKIDENT ('Items', RESEED, 0);
     DBCC CHECKIDENT ('Categories', RESEED, 0);
+	DBCC CHECKIDENT ('Tracking', RESEED, 0);
+
 
     -- Populate Categories table
     INSERT INTO Categories (CategoryName)
@@ -120,6 +115,30 @@ BEGIN
     ('Crackers', 'Saltine crackers', 3, 250, 'grams', '2022-10-01'),
     ('Sugar', 'White granulated sugar', 3, 500, 'grams', '2032-07-01'),
     ('Tea', 'Black tea bags', 4, 100, 'grams', '2025-11-12');
+
+			 -- Populate Items table
+    INSERT INTO Tracking(TrackingDate, Quantity, ItemID)
+    VALUES 
+	(GETDATE(), 400, 1),
+	(GETDATE(), 500, 2),
+	(GETDATE(), 1000, 3),
+	(GETDATE(), 355, 4),
+	(GETDATE(), 720, 5),
+	(GETDATE(), 140, 6),
+	(GETDATE(), 1000, 7),
+	(GETDATE(), 1000, 8),
+	(GETDATE(), 400, 9),
+	(GETDATE(), 125, 10),
+	(GETDATE(), 500, 11),
+	(GETDATE(), 1000, 12),
+	(GETDATE(), 340, 13),
+	(GETDATE(), 500, 14),
+	(GETDATE(), 500, 15),
+	(GETDATE(), 500, 16),
+	(GETDATE(), 340, 17),
+	(GETDATE(), 250, 18),
+	(GETDATE(), 500, 19),
+	(GETDATE(), 100, 20);
 
 END
 GO
