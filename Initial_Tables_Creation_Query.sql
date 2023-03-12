@@ -78,14 +78,16 @@ BEGIN
     SET NOCOUNT ON;
 
     -- Delete all data from Items and Categories tables
+    DELETE FROM Tracking;
+    DELETE FROM User_Items;
     DELETE FROM Items;
     DELETE FROM Categories;
-    DELETE FROM Tracking;
+
 
     -- Reset identity columns for Items and Categories tables
     DBCC CHECKIDENT ('Items', RESEED, 0);
     DBCC CHECKIDENT ('Categories', RESEED, 0);
-	DBCC CHECKIDENT ('Tracking', RESEED, 0);
+    DBCC CHECKIDENT ('Tracking', RESEED, 0);
 
 
     -- Populate Categories table
