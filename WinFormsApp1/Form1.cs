@@ -87,6 +87,7 @@ namespace WinFormsApp1
             }
         }
 
+        // Add Button
     private void button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(itemNameTextBox.Text) || string.IsNullOrWhiteSpace(descriptionRichTextBox.Text) || string.IsNullOrWhiteSpace(categoryTextBox.Text) || string.IsNullOrWhiteSpace(quantityTextBox.Text))
@@ -124,6 +125,7 @@ namespace WinFormsApp1
             }
         }
 
+        // Modify Button
         private void button2_Click(object sender, EventArgs e)
         {
             try

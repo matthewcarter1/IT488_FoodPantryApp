@@ -16,13 +16,14 @@ namespace WinFormsApp1
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Set up the connection string using SQL Server
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-IU3R9KA\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
-            //optionsBuilder.UseSqlServer("Data Source=LANDO\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
+            //optionsBuilder.UseSqlServer("Data Source=DESKTOP-IU3R9KA\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Data Source=LANDO\\SQLEXPRESS;Initial Catalog=FoodPantryDB;User Id=FoodPantry;Password=PantryFood;TrustServerCertificate=True;");
         }
 
         // DbSet properties that represent the tables in the database
         public DbSet<Item> Items { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Tracking> Tracking { get; set; }
     }
     
 
@@ -93,6 +94,26 @@ namespace WinFormsApp1
         public Category()
         {
             CategoryName = string.Empty;
+        }
+    }
+    // Class that represents the Tracking table in the database
+    public class Tracking
+    {
+        // Properties of the Tracking class
+        public int TrackingID { get; set; }
+        public DateTime TrackingDate { get; set; }
+        public decimal Quantity { get; set; }
+        public int ItemID { get; set; }
+
+        // Navigation property for the relationship with the Item table
+        public Item Item { get; set; }
+
+        // Default constructor
+        public Tracking()
+        {
+            TrackingDate = DateTime.MinValue;
+            Quantity = 0;
+            Item = new Item();
         }
     }
 }

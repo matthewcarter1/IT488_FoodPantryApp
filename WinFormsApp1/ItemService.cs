@@ -50,7 +50,15 @@ namespace WinFormsApp1
             {
                 _dbContext.Items.Add(item);
             }
-
+            // Add tracking record
+              var tracking = new Tracking
+              {
+                  TrackingDate = DateTime.Now,
+                  Quantity = item.Quantity,
+                  Item = item
+              };
+              _dbContext.Tracking.Add(tracking);
+            
             // Save the changes to the database
             _dbContext.SaveChanges();
         }
