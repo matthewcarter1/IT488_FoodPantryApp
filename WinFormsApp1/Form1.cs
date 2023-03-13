@@ -119,9 +119,11 @@ namespace WinFormsApp1
                 itemService.AddItem(item);
                 LoadItems();
             }
+
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while adding the item: " + ex.Message);
+                // Display the inner exception message
+                MessageBox.Show("An error occurred while adding the item: " + ex.InnerException.Message);
             }
         }
 
@@ -148,28 +150,35 @@ namespace WinFormsApp1
                     return;
                 }
 
+                // Instantiate an instance of the Item class and set its properties
+                var item = new Item
+                {
+                    ItemID = (int)dataGridView1.CurrentRow.Cells["ItemID"].Value,
+                    ItemName = itemNameTextBox.Text,
+                    ItemDescription = descriptionRichTextBox.Text,
+                    CategoryID = GetCategoryID(categoryTextBox.Text),
+                    Quantity = quantity,
+                    Unit = comboBoxUnit.SelectedItem.ToString(),
+                    Expiration = dateTimePicker1.Value
+                };
+
+                // Instantiate an instance of the ItemService class and call the ModifyItem method
                 using (var dbContext = new FoodPantryDbContext())
                 {
                     var itemService = new ItemService(dbContext);
-                    int selectedRowIndex = dataGridView1.CurrentCell.RowIndex;
-                    DataGridViewRow selectedRow = dataGridView1.Rows[selectedRowIndex];
-                    int itemId = (int)selectedRow.Cells["ItemID"].Value;
-                    var item = dbContext.Items.FirstOrDefault(i => i.ItemID == itemId);
-                    item.ItemName = itemNameTextBox.Text;
-                    item.ItemDescription = descriptionRichTextBox.Text;
-                    item.CategoryID = GetCategoryID(categoryTextBox.Text);
-                    item.Quantity = quantity;
-                    item.Unit = comboBoxUnit.SelectedItem.ToString();
-                    item.Expiration = dateTimePicker1.Value;
-                    dbContext.SaveChanges();
-                    LoadItems();
+                    int itemID = (int)dataGridView1.CurrentRow.Cells["ItemID"].Value;
+                    itemService.ModifyItem(itemID, itemNameTextBox.Text, descriptionRichTextBox.Text, categoryTextBox.Text, quantity, comboBoxUnit.SelectedItem.ToString(), dateTimePicker1.Value);
+
                 }
+
+                LoadItems();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while updating the item. " + ex.Message);
             }
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -200,25 +209,17 @@ namespace WinFormsApp1
                 using (var dbContext = new FoodPantryDbContext())
                 {
                     var itemService = new ItemService(dbContext);
-                    var item = dbContext.Items.FirstOrDefault(i => i.ItemID == itemId);
-
-                    // Check if the item exists in the database
-                    if (item == null)
-                    {
-                        MessageBox.Show("Item not found in the database.");
-                        return;
-                    }
-
-                    dbContext.Items.Remove(item);
-                    dbContext.SaveChanges();
-                    LoadItems();
+                    itemService.RemoveItem(itemId);
                 }
+                LoadItems();
             }
             catch (SqlException ex)
             {
                 MessageBox.Show("An error occurred while trying to delete the item from the database.");
             }
         }
+
+
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -360,6 +361,23 @@ namespace WinFormsApp1
         {
             var form2 = new Form2();
             form2.Show();
+        }
+
+        private void Tracking_Click(object sender, EventArgs e)
+        {
+            // Check if a row is selected in the DataGridView
+            if (dataGridView1.CurrentCell == null)
+            {
+                MessageBox.Show("Please select an item to view its history.");
+                return;
+            }
+
+            // Get the selected item ID from the DataGridView
+            int selectedItemID = (int)dataGridView1.CurrentRow.Cells["ItemID"].Value;
+
+            // Open the graph form and pass the selected item ID
+            var graphForm = new Form3(selectedItemID);
+            graphForm.ShowDialog();
         }
     }
 }
