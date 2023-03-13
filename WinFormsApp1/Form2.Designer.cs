@@ -89,6 +89,7 @@
             this.ClearSList.TabIndex = 6;
             this.ClearSList.Text = "Clear";
             this.ClearSList.UseVisualStyleBackColor = true;
+            this.ClearSList.Click += new System.EventHandler(this.ClearSList_Click);
             // 
             // PrintSL
             // 
@@ -98,6 +99,7 @@
             this.PrintSL.TabIndex = 7;
             this.PrintSL.Text = "Print";
             this.PrintSL.UseVisualStyleBackColor = true;
+            this.PrintSL.Click += new System.EventHandler(this.PrintSL_Click);
             // 
             // ingredientTextBox
             // 

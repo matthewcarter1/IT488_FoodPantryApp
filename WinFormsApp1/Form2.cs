@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,16 @@ namespace IT488_FoodPantryApp
     {
         private FoodPantryDbContext _dbContext;
         private BindingSource shoppingListBindingSource = new BindingSource();
+        private PrintDocument pd = new PrintDocument();
 
+        // Add a private variable to store the font to use for printing
+        private Font printFont = new Font("Arial", 12);
         public Form2()
         {
             InitializeComponent();
+
+            // Set the PrintPage event handler for the PrintDocument object
+            pd.PrintPage += new PrintPageEventHandler(PrintPage);
 
             shoppingList.AutoGenerateColumns = false;
 
@@ -46,6 +53,9 @@ namespace IT488_FoodPantryApp
             comboBox1.Items.Add("ounces");
             comboBox1.Items.Add("milliliters");
             comboBox1.Items.Add("liters");
+
+            // Register the Click event of the ClearListButton
+            ClearSList.Click += new EventHandler(ClearSList_Click);
         }
 
         public class ShoppingListItem
@@ -251,6 +261,59 @@ namespace IT488_FoodPantryApp
             qtyTextBox.Text = "";
             comboBox1.SelectedIndex = -1;
         }
+
+        private void PrintSL_Click(object sender, EventArgs e)
+        {
+            // Get the shopping list items from the data source
+            List<ShoppingListItem> items = shoppingListBindingSource.DataSource as List<ShoppingListItem>;
+
+            // Check if there are items in the shopping list
+            if (items != null && items.Any())
+            {
+                // Call the Print method of the PrintDocument object
+                pd.Print();
+            }
+            else
+            {
+                MessageBox.Show("There are no items in the shopping list to print.");
+            }
+        }
+
+
+        private void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            // Get the shopping list items from the data source
+            List<ShoppingListItem> items = shoppingListBindingSource.DataSource as List<ShoppingListItem>;
+
+            if (items != null && items.Any())
+            {
+                // Set the x and y coordinates for drawing the text
+                float x = 100;
+                float y = 100;
+
+                // Draw the shopping list items on the printed page
+                foreach (ShoppingListItem item in items)
+                {
+                    string line = string.Format("{0} {1} {2}", item.Quantity, item.Unit, item.Ingredient);
+                    e.Graphics.DrawString(line, printFont, Brushes.Black, x, y);
+                    y += printFont.GetHeight();
+                }
+            }
+            else
+            {
+                MessageBox.Show("There are no items in the shopping list to print.");
+            }
+        }
+
+        private void ClearSList_Click(object sender, EventArgs e)
+        {
+                shoppingListTemp.Clear();
+
+                // Update the binding source
+                shoppingListBindingSource.DataSource = shoppingListTemp;
+                shoppingListBindingSource.ResetBindings(false);
+            }
+        }
     }
-}
+
 
